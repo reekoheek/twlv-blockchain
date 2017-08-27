@@ -7,13 +7,13 @@ describe('Ledger', () => {
     let ledger = new Ledger();
     await ledger.init();
 
-    let hash1 = ledger.append('foo');
-    let hash2 = ledger.append('bar');
+    let block1 = ledger.append('foo');
+    let block2 = ledger.append('bar');
 
-    let block = await ledger.get(hash1);
+    let block = await ledger.get(block1.hash);
     assert.ok(block.index, 1);
     assert.ok(block.data.toString(), 'foo');
-    assert.ok((await ledger.get(hash2)).data.toString(), 'bar');
+    assert.ok((await ledger.get(block2.hash)).data.toString(), 'bar');
   });
 
   it('#createStream()', async () => {
@@ -79,7 +79,7 @@ describe('Cases', () => {
     assert.equal(ledger1.hash, ledger3.hash);
   }).timeout(10000);
 
-  it.only('sync to longest', async () => {
+  it('sync to longest', async () => {
     let ledger1 = new Ledger();
     let ledger2 = new Ledger();
     let ledger3 = new Ledger();
